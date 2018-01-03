@@ -1,0 +1,17 @@
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\PokemonPicker.g.cs
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\App.g.cs
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon_MarkupCompile.cache
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon_MarkupCompile.lref
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\bin\Debug\Pokemon.exe.config
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\bin\Debug\Pokemon.exe
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\bin\Debug\Pokemon.pdb
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\MainWindow.g.cs
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\MainWindow.baml
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\PokemonPicker.baml
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon.g.resources
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon.Properties.Resources.resources
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon.csproj.GenerateResource.Cache
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon.csproj.CoreCompileInputs.cache
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon.exe
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon.pdb
+C:\Users\Woojin\Documents\Woojin\Development\C#\Pokemon\Pokemon\obj\Debug\Pokemon.csprojResolveAssemblyReference.cache

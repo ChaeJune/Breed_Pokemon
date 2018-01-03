@@ -1,0 +1,22 @@
+﻿<Window x:Class="Pokemon.PokemonPicker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pokemon"
+        mc:Ignorable="d"
+        Title="Pokemon Picker" Height="500" Width="500"
+        WindowState="Normal" ResizeMode="NoResize" WindowStyle="ToolWindow" Topmost="True" ShowInTaskbar="False" Background="Azure">
+    <Grid>
+        <Image Name="Pokeball_Image" Stretch="Fill"></Image>
+        
+        <Label Name="Pokemon" Content="Current Pokemon" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="30"/>
+        <Label Name="PokemonName" Content="" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Name="Exp" Content="0 exp" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Bottom" FontSize="20"/>
+
+        <Image Name="Pikachu_Image" HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="75"/>
+        <Image Name="Bulbasaur_Image" HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="75"/>
+        <Image Name="Charmander_Image" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="75" Width="75"/>
+        <Image Name="Squirtle_Image" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="75" Width="75"/>
+    </Grid>
+</Window>
