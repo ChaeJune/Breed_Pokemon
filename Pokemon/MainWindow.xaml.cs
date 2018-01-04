@@ -30,6 +30,7 @@ namespace Pokemon
         #region Basic variables
         public uint CurrentExp = 0;
         public byte CurrentPokemon = 0;
+        public byte NeedHelp = 1;
 
         public static string WebResourcePath = "http://raw.githubusercontent.com/IdeaBank/Breed_Pokemon/master/Pokemon/Resource/";
 
@@ -44,7 +45,7 @@ namespace Pokemon
         {
             Directory.CreateDirectory(DataDirectoryPath);
             Directory.CreateDirectory(ResourceDirectoryPath);
-            
+
             #region Download files
 
             DownloadFile(WebResourcePath + "Pikachu_Basic.png", ResourceDirectoryPath + "Pikachu_Basic.png");
@@ -90,6 +91,7 @@ namespace Pokemon
                     File.Create(DataDirectoryPath + "exp.txt");
                 }
             }
+
             //Status
             if (!File.Exists(DataDirectoryPath + "pokemon.txt"))
             {
@@ -105,6 +107,24 @@ namespace Pokemon
                 catch (FormatException)
                 {
                     File.Create(DataDirectoryPath + "pokemon.txt");
+                }
+            }
+
+            //Help
+            if (!File.Exists(DataDirectoryPath + "help.txt"))
+            {
+                File.Create(DataDirectoryPath + "help.txt");
+            }
+            else
+            {
+                string help = File.ReadAllText(DataDirectoryPath + "help.txt");
+                try
+                {
+                    NeedHelp = byte.Parse(help);
+                }
+                catch (FormatException)
+                {
+                    File.Create(DataDirectoryPath + "help.txt");
                 }
             }
 
@@ -136,11 +156,26 @@ namespace Pokemon
 
             Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
 
-            ToolWindow tool = new ToolWindow();
+            //Delete in ALT-TAB list
+            Window tool = new Window();
+            tool.WindowStyle = WindowStyle.ToolWindow;
+            tool.ShowInTaskbar = false;
+            tool.Width = 0;
+            tool.Height = 0;
             tool.Show();
             Show();
             tool.Hide();
             Owner = tool;
+
+            #endregion
+
+            #region Open help document
+
+            if (NeedHelp != 0)
+            {
+                Help help = new Help();
+                help.Show();
+            }
 
             #endregion
         }
@@ -196,10 +231,10 @@ namespace Pokemon
         {
             File.WriteAllText(DataDirectoryPath + "exp.txt", CurrentExp.ToString());
             File.WriteAllText(DataDirectoryPath + "pokemon.txt", CurrentPokemon.ToString());
+            File.WriteAllText(DataDirectoryPath + "help.txt", NeedHelp.ToString());
 
             for (int intCounter = App.Current.Windows.Count - 1; intCounter >= 0; intCounter--)
                 App.Current.Windows[intCounter].Close();
-
         }
         #endregion
 

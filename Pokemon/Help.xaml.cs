@@ -15,13 +15,21 @@ using System.Windows.Shapes;
 namespace Pokemon
 {
     /// <summary>
-    /// Interaction logic for ToolWindow.xaml
+    /// Interaction logic for Help.xaml
     /// </summary>
-    public partial class ToolWindow : Window
+    public partial class Help : Window
     {
-        public ToolWindow()
+        public Help()
         {
             InitializeComponent();
+        }
+
+        private void Close(object sender, EventArgs e)
+        {
+            if (NeverShow.IsChecked == true)
+            {
+                ((MainWindow) System.Windows.Application.Current.MainWindow).NeedHelp = 0;
+            }
         }
     }
 }
