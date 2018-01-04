@@ -23,7 +23,7 @@ namespace Pokemon
         private byte _Current_Pokemon = 0;
 
         private readonly string _ResourcePath =
-            ((MainWindow)System.Windows.Application.Current.MainWindow).ResourcePath;
+            ((MainWindow)System.Windows.Application.Current.MainWindow).ResourceDirectoryPath;
 
         public PokemonPicker()
         {

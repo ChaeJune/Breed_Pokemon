@@ -31,31 +31,34 @@ namespace Pokemon
         public uint CurrentExp = 0;
         public byte CurrentPokemon = 0;
 
-        public static string WebResourcePath = "http://github.com/IdeaBank/Breed_Pokemon/blob/master/Pokemon/Resource/";
+        public static string WebResourcePath = "http://raw.githubusercontent.com/IdeaBank/Breed_Pokemon/master/Pokemon/Resource/";
 
-        public static string DirectoryPath = "C:/Users/" + Environment.UserName + "/Appdata/Local/Pokemon";
-        public readonly string DataDirectoryPath = DirectoryPath + "/Data/";
-        public readonly string ResourcePath = DirectoryPath + "/Resource/";
+        public static string DirectoryPath = "C:/Users/" + Environment.UserName + "/Appdata/Local/Pokemon/";
+        public readonly string DataDirectoryPath = DirectoryPath + "Data/";
+        public readonly string ResourceDirectoryPath = DirectoryPath + "Resource/";
 
         private const int Kilobyte = 1024;
         #endregion
 
         public MainWindow()
         {
+            Directory.CreateDirectory(DataDirectoryPath);
+            Directory.CreateDirectory(ResourceDirectoryPath);
+            
             #region Download files
 
-            DownloadFile(WebResourcePath + "Pikachu_Basic.png", ResourcePath + "Pikachu_Basic.png");
-            DownloadFile(WebResourcePath + "Bulbasaur_Basic.png", ResourcePath + "Bulbasaur_Basic.png");
-            DownloadFile(WebResourcePath + "Charmander_Basic.png", ResourcePath + "Charmander_Basic.png");
-            DownloadFile(WebResourcePath + "Squirtle_Basic.png", ResourcePath + "Squirtle_Basic.png");
+            DownloadFile(WebResourcePath + "Pikachu_Basic.png", ResourceDirectoryPath + "Pikachu_Basic.png");
+            DownloadFile(WebResourcePath + "Bulbasaur_Basic.png", ResourceDirectoryPath + "Bulbasaur_Basic.png");
+            DownloadFile(WebResourcePath + "Charmander_Basic.png", ResourceDirectoryPath + "Charmander_Basic.png");
+            DownloadFile(WebResourcePath + "Squirtle_Basic.png", ResourceDirectoryPath + "Squirtle_Basic.png");
 
-            DownloadFile(WebResourcePath + "Pikachu_Eating.png", ResourcePath + "Pikachu_Eating.png");
-            DownloadFile(WebResourcePath + "Bulbasaur_Eating.png", ResourcePath + "Bulbasaur_Eating.png");
-            DownloadFile(WebResourcePath + "Charmander_Eating.png", ResourcePath + "Charmander_Eating.png");
-            DownloadFile(WebResourcePath + "Squirtle_Eating.png", ResourcePath + "Squirtle_Eating.png");
+            DownloadFile(WebResourcePath + "Pikachu_Eating.png", ResourceDirectoryPath + "Pikachu_Eating.png");
+            DownloadFile(WebResourcePath + "Bulbasaur_Eating.png", ResourceDirectoryPath + "Bulbasaur_Eating.png");
+            DownloadFile(WebResourcePath + "Charmander_Eating.png", ResourceDirectoryPath + "Charmander_Eating.png");
+            DownloadFile(WebResourcePath + "Squirtle_Eating.png", ResourceDirectoryPath + "Squirtle_Eating.png");
 
-            DownloadFile(WebResourcePath + "Pokeball.png", ResourcePath + "Pokeball.png");
-            DownloadFile(WebResourcePath + "Pokeball.ico", ResourcePath + "Pokeball.ico");
+            DownloadFile(WebResourcePath + "Pokeball.png", ResourceDirectoryPath + "Pokeball.png");
+            DownloadFile(WebResourcePath + "Pokeball.ico", ResourceDirectoryPath + "Pokeball.ico");
 
             #endregion 
 
@@ -63,7 +66,6 @@ namespace Pokemon
 
             //get Data file
 
-            Directory.CreateDirectory(DataDirectoryPath);
 
             //Experiment
             if (!File.Exists(DataDirectoryPath + "exp.txt"))
@@ -116,7 +118,7 @@ namespace Pokemon
             this.Left = desktopWorkingArea.Right - this.Width - 25;
             this.Top = desktopWorkingArea.Bottom - this.Height - 25;
 
-            this.Icon = new BitmapImage(new Uri(ResourcePath + "/Pokeball.ico", UriKind.Relative));
+            this.Icon = new BitmapImage(new Uri(ResourceDirectoryPath + "/Pokeball.ico", UriKind.Relative));
 
             AllowDrop = true;
             Topmost = true;
@@ -132,14 +134,13 @@ namespace Pokemon
             Drop += Window_DragDrop;
             MouseLeftButtonDown += Window_MouseLeftButtonDown;
 
-            Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
+            Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
 
             ToolWindow tool = new ToolWindow();
             tool.Show();
             Show();
-            Owner = tool;
             tool.Hide();
-            //Close();
+            Owner = tool;
 
             #endregion
         }
@@ -195,6 +196,10 @@ namespace Pokemon
         {
             File.WriteAllText(DataDirectoryPath + "exp.txt", CurrentExp.ToString());
             File.WriteAllText(DataDirectoryPath + "pokemon.txt", CurrentPokemon.ToString());
+
+            for (int intCounter = App.Current.Windows.Count - 1; intCounter >= 0; intCounter--)
+                App.Current.Windows[intCounter].Close();
+
         }
         #endregion
 
@@ -202,19 +207,19 @@ namespace Pokemon
 
         public void DownloadFile(string remoteFilename, string localFilename)
         {
-            if (!File.Exists(localFilename))
+            try
             {
-                using (WebClient client = new WebClient())
+                if (!File.Exists(localFilename))
                 {
-                    try
+                    using (WebClient client = new WebClient())
                     {
                         client.DownloadFile(remoteFilename, localFilename);
                     }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.ToString());
-                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
             }
         }
         public void Animate_Pokemon_Eat()
@@ -223,14 +228,14 @@ namespace Pokemon
             Dispatcher.Invoke(
                 new Action(() =>
                 {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Eating.png");
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
                 }),
                 DispatcherPriority.ContextIdle);
             System.Threading.Thread.Sleep(500);
             Dispatcher.Invoke(
                 new Action(() =>
                 {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
                 }),
                 DispatcherPriority.ContextIdle);
 
@@ -239,14 +244,14 @@ namespace Pokemon
             Dispatcher.Invoke(
                 new Action(() =>
                 {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Eating.png");
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
                 }),
                 DispatcherPriority.ContextIdle);
             System.Threading.Thread.Sleep(500);
             Dispatcher.Invoke(
                 new Action(() =>
                 {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
                 }),
                 DispatcherPriority.ContextIdle);
             System.Threading.Thread.Sleep(500);
@@ -254,14 +259,14 @@ namespace Pokemon
             Dispatcher.Invoke(
                 new Action(() =>
                 {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Eating.png");
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
                 }),
                 DispatcherPriority.ContextIdle);
             System.Threading.Thread.Sleep(500);
             Dispatcher.Invoke(
                 new Action(() =>
                 {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
                 }),
                 DispatcherPriority.ContextIdle);
             System.Threading.Thread.Sleep(500);
