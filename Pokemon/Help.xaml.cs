@@ -22,13 +22,20 @@ namespace Pokemon
         public Help()
         {
             InitializeComponent();
+
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth) - (windowWidth);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         private void Close(object sender, EventArgs e)
         {
             if (NeverShow.IsChecked == true)
             {
-                ((MainWindow) System.Windows.Application.Current.MainWindow).NeedHelp = 0;
+                ((MainWindow) System.Windows.Application.Current.MainWindow).NeedHelp = false;
             }
         }
     }

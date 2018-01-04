@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Pokemon"
+        xmlns:local="clr-namespace:Pokemon" 
         mc:Ignorable="d"
         Title="Help" Height="541.714" Width="375" Closing="Close">
     <Grid>
         <TextBlock TextWrapping="WrapWithOverflow" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="1. If you want to move your Pokemon, just drag it to wherever you want!"/><LineBreak/><Run/><LineBreak/><Run Text="2. If you want to change your Pokemon, click it twice!"/></TextBlock>
 
-        <CheckBox Name="NeverShow"  HorizontalAlignment="Right" VerticalContentAlignment="Bottom">
+        <CheckBox Name="NeverShow"  HorizontalAlignment="Right" VerticalContentAlignment="Bottom" Margin="0,470,0,0">
             <TextBlock TextWrapping="Wrap" Text="Do not show me this again" FontSize="15"></TextBlock>
         </CheckBox>
     </Grid>

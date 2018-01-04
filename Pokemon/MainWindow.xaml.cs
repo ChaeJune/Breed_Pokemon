@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -16,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Pokemon.Properties;
 
 namespace Pokemon
 {
@@ -30,12 +32,11 @@ namespace Pokemon
         #region Basic variables
         public uint CurrentExp = 0;
         public byte CurrentPokemon = 0;
-        public byte NeedHelp = 1;
+        public bool NeedHelp = true;
 
         public static string WebResourcePath = "http://raw.githubusercontent.com/IdeaBank/Breed_Pokemon/master/Pokemon/Resource/";
 
-        public static string DirectoryPath = "C:/Users/" + Environment.UserName + "/Appdata/Local/Pokemon/";
-        public readonly string DataDirectoryPath = DirectoryPath + "Data/";
+        public static string DirectoryPath = "C:/Users/" + Environment.UserName + "/Appdata/Roaming/Pokemon/";
         public readonly string ResourceDirectoryPath = DirectoryPath + "Resource/";
 
         private const int Kilobyte = 1024;
@@ -43,9 +44,13 @@ namespace Pokemon
 
         public MainWindow()
         {
-            Directory.CreateDirectory(DataDirectoryPath);
             Directory.CreateDirectory(ResourceDirectoryPath);
 
+            if (!File.Exists(ResourceDirectoryPath + "Pikachu_Basic.png"))
+            {
+                Settings.Default.Reset();
+            }
+            
             #region Download files
 
             DownloadFile(WebResourcePath + "Pikachu_Basic.png", ResourceDirectoryPath + "Pikachu_Basic.png");
@@ -61,74 +66,9 @@ namespace Pokemon
             DownloadFile(WebResourcePath + "Pokeball.png", ResourceDirectoryPath + "Pokeball.png");
             DownloadFile(WebResourcePath + "Pokeball.ico", ResourceDirectoryPath + "Pokeball.ico");
 
-            #endregion 
-
-            #region Get data file
-
-            //get Data file
-
-
-            //Experiment
-            if (!File.Exists(DataDirectoryPath + "exp.txt"))
-            {
-                File.Create(DataDirectoryPath + "exp.txt");
-            }
-            else
-            {
-                string exp = File.ReadAllText(DataDirectoryPath + "exp.txt");
-
-                try
-                {
-                    CurrentExp = uint.Parse(exp);
-                }
-                catch (FormatException)
-                {
-                    File.Create(DataDirectoryPath + "exp.txt");
-                }
-
-                if (!File.Exists(DataDirectoryPath + "exp.txt"))
-                {
-                    File.Create(DataDirectoryPath + "exp.txt");
-                }
-            }
-
-            //Status
-            if (!File.Exists(DataDirectoryPath + "pokemon.txt"))
-            {
-                File.Create(DataDirectoryPath + "pokemon.txt");
-            }
-            else
-            {
-                string status = File.ReadAllText(DataDirectoryPath + "pokemon.txt");
-                try
-                {
-                    CurrentPokemon = byte.Parse(status);
-                }
-                catch (FormatException)
-                {
-                    File.Create(DataDirectoryPath + "pokemon.txt");
-                }
-            }
-
-            //Help
-            if (!File.Exists(DataDirectoryPath + "help.txt"))
-            {
-                File.Create(DataDirectoryPath + "help.txt");
-            }
-            else
-            {
-                string help = File.ReadAllText(DataDirectoryPath + "help.txt");
-                try
-                {
-                    NeedHelp = byte.Parse(help);
-                }
-                catch (FormatException)
-                {
-                    File.Create(DataDirectoryPath + "help.txt");
-                }
-            }
-
             #endregion
+            
+            ReadAllSettings();
 
             #region Basic configuration
 
@@ -171,7 +111,7 @@ namespace Pokemon
 
             #region Open help document
 
-            if (NeedHelp != 0)
+            if (NeedHelp)
             {
                 Help help = new Help();
                 help.Show();
@@ -229,10 +169,17 @@ namespace Pokemon
 
         private void Close(object sender, EventArgs e)
         {
-            File.WriteAllText(DataDirectoryPath + "exp.txt", CurrentExp.ToString());
-            File.WriteAllText(DataDirectoryPath + "pokemon.txt", CurrentPokemon.ToString());
-            File.WriteAllText(DataDirectoryPath + "help.txt", NeedHelp.ToString());
-
+            try
+            {
+                Settings.Default.exp = CurrentExp;
+                Settings.Default.pokemon = CurrentPokemon;
+                Settings.Default.help = NeedHelp;
+                Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
             for (int intCounter = App.Current.Windows.Count - 1; intCounter >= 0; intCounter--)
                 App.Current.Windows[intCounter].Close();
         }
@@ -255,6 +202,7 @@ namespace Pokemon
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
+                File.Delete(localFilename);
             }
         }
         public void Animate_Pokemon_Eat()
@@ -305,6 +253,13 @@ namespace Pokemon
                 }),
                 DispatcherPriority.ContextIdle);
             System.Threading.Thread.Sleep(500);
+        }
+
+        private void ReadAllSettings()
+        {
+            CurrentExp = Settings.Default.exp;
+            CurrentPokemon = Settings.Default.pokemon;
+            NeedHelp = Settings.Default.help;
         }
 
         public string GetCurrentPokemon()
