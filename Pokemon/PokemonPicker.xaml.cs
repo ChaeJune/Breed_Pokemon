@@ -29,9 +29,12 @@ namespace Pokemon
         {
             InitializeComponent();
 
-            System.Windows.Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            this.Left = 0;
-            this.Top = 0;
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
 
             SizeChanged += ((MainWindow)System.Windows.Application.Current.MainWindow).Size_Changed;
 
@@ -52,8 +55,12 @@ namespace Pokemon
         private void Change_Pokemon(object sender, EventArgs e, byte PokemonNumber)
         {
             _Current_Pokemon = ((MainWindow)System.Windows.Application.Current.MainWindow).CurrentPokemon = PokemonNumber;
-            MessageBox.Show("Your pokemon changed into " + ((MainWindow)System.Windows.Application.Current.MainWindow).GetCurrentPokemon() + "!", "Information");
+            MessageBox.Show("Your pokemon turned into " + ((MainWindow)System.Windows.Application.Current.MainWindow).GetCurrentPokemon() + "!", "Information");
             ((MainWindow)System.Windows.Application.Current.MainWindow).Change_Pokemon_Image(_ResourcePath + ((MainWindow)System.Windows.Application.Current.MainWindow).GetCurrentPokemon() + "_Basic.png");
+            
+            Close();
+            PokemonPicker status = new PokemonPicker();
+            status.Show();
         }
 
         private void Set_Image()

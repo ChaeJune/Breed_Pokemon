@@ -31,6 +31,8 @@ namespace Pokemon
         public uint CurrentExp = 0;
         public byte CurrentPokemon = 0;
 
+        public static string WebResourcePath = "http://github.com/IdeaBank/Breed_Pokemon/blob/master/Pokemon/Resource/";
+
         public static string DirectoryPath = "C:/Users/" + Environment.UserName + "/Appdata/Local/Pokemon";
         public readonly string DataDirectoryPath = DirectoryPath + "/Data/";
         public readonly string ResourcePath = DirectoryPath + "/Resource/";
@@ -41,6 +43,19 @@ namespace Pokemon
         public MainWindow()
         {
             #region Download files
+
+            DownloadFile(WebResourcePath+ "Pikachu_Basic.png", ResourcePath+ "Pikachu_Basic.png");
+            DownloadFile(WebResourcePath+ "Bulbasaur_Basic.png", ResourcePath+ "Bulbasaur_Basic.png");
+            DownloadFile(WebResourcePath+ "Charmander_Basic.png", ResourcePath+ "Charmander_Basic.png");
+            DownloadFile(WebResourcePath+ "Squirtle_Basic.png", ResourcePath+ "Squirtle_Basic.png");
+
+            DownloadFile(WebResourcePath + "Pikachu_Eating.png", ResourcePath + "Pikachu_Eating.png");
+            DownloadFile(WebResourcePath + "Bulbasaur_Eating.png", ResourcePath + "Bulbasaur_Eating.png");
+            DownloadFile(WebResourcePath + "Charmander_Eating.png", ResourcePath + "Charmander_Eating.png");
+            DownloadFile(WebResourcePath + "Squirtle_Eating.png", ResourcePath + "Squirtle_Eating.png");
+
+            DownloadFile(WebResourcePath + "Pokeball.png", ResourcePath + "Pokeball.png");
+            DownloadFile(WebResourcePath + "Pokeball.ico", ResourcePath + "Pokeball.ico");
 
             #endregion 
 
@@ -98,8 +113,9 @@ namespace Pokemon
             InitializeComponent();
 
             System.Windows.Rect desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-            this.Left = desktopWorkingArea.Right - this.Width;
-            this.Top = desktopWorkingArea.Bottom - this.Height;
+            this.Left = desktopWorkingArea.Right - this.Width - 25;
+            this.Top = desktopWorkingArea.Bottom - this.Height - 25;
+
             this.Icon = new BitmapImage(new Uri(ResourcePath + "/Pokeball.ico", UriKind.Relative));
 
             AllowDrop = true;
@@ -119,8 +135,6 @@ namespace Pokemon
             Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
             
             #endregion
-
-
         }
 
 
@@ -181,12 +195,19 @@ namespace Pokemon
 
         public void DownloadFile(string remoteFilename, string localFilename)
         {
-            if (!File.Exists(localFilename))
+            try
             {
-                using (WebClient client = new WebClient())
+                if (!File.Exists(localFilename))
                 {
-                    client.DownloadFile(remoteFilename, localFilename);
+                    using (WebClient client = new WebClient())
+                    {
+                        client.DownloadFile(remoteFilename, localFilename);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
             }
         }
         public void Animate_Pokemon_Eat()
