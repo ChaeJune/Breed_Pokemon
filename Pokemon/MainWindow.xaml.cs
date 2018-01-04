@@ -51,6 +51,8 @@ namespace Pokemon
                 Settings.Default.Reset();
             }
             
+            ReadAllSettings();
+
             #region Download files
 
             DownloadFile(WebResourcePath + "Pikachu_Basic.png", ResourceDirectoryPath + "Pikachu_Basic.png");
@@ -67,8 +69,6 @@ namespace Pokemon
             DownloadFile(WebResourcePath + "Pokeball.ico", ResourceDirectoryPath + "Pokeball.ico");
 
             #endregion
-            
-            ReadAllSettings();
 
             #region Basic configuration
 
@@ -120,7 +120,6 @@ namespace Pokemon
             #endregion
         }
 
-
         #region Operations needed for MainWindow
 
         void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -140,8 +139,7 @@ namespace Pokemon
             foreach (string file in fileList)
             {
                 string[] laststring = file.Split('\\');
-                if (MessageBox.Show(Application.Current.MainWindow ?? throw new InvalidOperationException(),
-                        "Warning : " + laststring[laststring.Length - 1] + " will be deleted forever!", "Alert", MessageBoxButton.OKCancel,
+                if (MessageBox.Show(Application.Current.MainWindow, "Warning : " + laststring[laststring.Length - 1] + " will be deleted forever!", "Alert", MessageBoxButton.OKCancel,
                         MessageBoxImage.Asterisk) == MessageBoxResult.OK)
                 {
                     if (File.Exists(file))
@@ -183,6 +181,7 @@ namespace Pokemon
             for (int intCounter = App.Current.Windows.Count - 1; intCounter >= 0; intCounter--)
                 App.Current.Windows[intCounter].Close();
         }
+
         #endregion
 
         #region Operations needed for runtime
@@ -203,79 +202,7 @@ namespace Pokemon
             {
                 MessageBox.Show(e.ToString());
                 File.Delete(localFilename);
-            }
-        }
-        public void Animate_Pokemon_Eat()
-        {
-            //1
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
-                }),
-                DispatcherPriority.ContextIdle);
-            System.Threading.Thread.Sleep(500);
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
-                }),
-                DispatcherPriority.ContextIdle);
-
-            System.Threading.Thread.Sleep(500);
-            //2
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
-                }),
-                DispatcherPriority.ContextIdle);
-            System.Threading.Thread.Sleep(500);
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
-                }),
-                DispatcherPriority.ContextIdle);
-            System.Threading.Thread.Sleep(500);
-            //3
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
-                }),
-                DispatcherPriority.ContextIdle);
-            System.Threading.Thread.Sleep(500);
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
-                }),
-                DispatcherPriority.ContextIdle);
-            System.Threading.Thread.Sleep(500);
-        }
-
-        private void ReadAllSettings()
-        {
-            CurrentExp = Settings.Default.exp;
-            CurrentPokemon = Settings.Default.pokemon;
-            NeedHelp = Settings.Default.help;
-        }
-
-        public string GetCurrentPokemon()
-        {
-            switch (CurrentPokemon)
-            {
-                case 0:
-                    return "Pikachu";
-                case 1:
-                    return "Bulbasaur";
-                case 2:
-                    return "Charmander";
-                case 3:
-                    return "Squirtle";
-                default:
-                    throw new System.InvalidOperationException("Your data has been crashed!!");
+                Close();
             }
         }
 
@@ -304,6 +231,81 @@ namespace Pokemon
             return size;
         }
 
+        private void ReadAllSettings()
+        {
+            CurrentExp = Settings.Default.exp;
+            CurrentPokemon = Settings.Default.pokemon;
+            NeedHelp = Settings.Default.help;
+        }
+
+        public string GetCurrentPokemon()
+        {
+            switch (CurrentPokemon)
+            {
+                case 0:
+                    return "Pikachu";
+                case 1:
+                    return "Bulbasaur";
+                case 2:
+                    return "Charmander";
+                case 3:
+                    return "Squirtle";
+                default:
+                    throw new System.InvalidOperationException("Your data has been crashed!!");
+            }
+        }
+
+        public void Animate_Pokemon_Eat()
+        {
+            //1
+            Dispatcher.Invoke(
+                new Action(() =>
+                {
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
+                }),
+                DispatcherPriority.ContextIdle);
+            System.Threading.Thread.Sleep(500);
+            Dispatcher.Invoke(
+                new Action(() =>
+                {
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
+                }),
+                DispatcherPriority.ContextIdle);
+            System.Threading.Thread.Sleep(500);
+
+            //2
+            Dispatcher.Invoke(
+                new Action(() =>
+                {
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
+                }),
+                DispatcherPriority.ContextIdle);
+            System.Threading.Thread.Sleep(500);
+            Dispatcher.Invoke(
+                new Action(() =>
+                {
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
+                }),
+                DispatcherPriority.ContextIdle);
+            System.Threading.Thread.Sleep(500);
+
+            //3
+            Dispatcher.Invoke(
+                new Action(() =>
+                {
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Eating.png");
+                }),
+                DispatcherPriority.ContextIdle);
+            System.Threading.Thread.Sleep(500);
+            Dispatcher.Invoke(
+                new Action(() =>
+                {
+                    Change_Pokemon_Image(ResourceDirectoryPath + GetCurrentPokemon() + "_Basic.png");
+                }),
+                DispatcherPriority.ContextIdle);
+            System.Threading.Thread.Sleep(500);
+        }
+
         public void Change_Pokemon_Image(string path)
         {
             try
@@ -317,6 +319,7 @@ namespace Pokemon
                 MessageBox.Show(e.ToString());
             }
         }
+
         #endregion
     }
 }

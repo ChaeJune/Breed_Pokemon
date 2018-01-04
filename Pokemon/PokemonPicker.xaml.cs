@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,6 +30,7 @@ namespace Pokemon
         {
             InitializeComponent();
 
+            //Set position
             double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
             double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
             double windowWidth = this.Width;
@@ -58,6 +60,7 @@ namespace Pokemon
             MessageBox.Show("Your pokemon turned into " + ((MainWindow)System.Windows.Application.Current.MainWindow).GetCurrentPokemon() + "!", "Information");
             ((MainWindow)System.Windows.Application.Current.MainWindow).Change_Pokemon_Image(_ResourcePath + ((MainWindow)System.Windows.Application.Current.MainWindow).GetCurrentPokemon() + "_Basic.png");
             
+            //Reload
             Close();
             PokemonPicker status = new PokemonPicker();
             status.Show();

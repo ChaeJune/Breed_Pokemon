@@ -23,6 +23,7 @@ namespace Pokemon
         {
             InitializeComponent();
 
+            //Set position
             double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
             double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
             double windowWidth = this.Width;
