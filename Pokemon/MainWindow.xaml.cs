@@ -44,10 +44,10 @@ namespace Pokemon
         {
             #region Download files
 
-            DownloadFile(WebResourcePath+ "Pikachu_Basic.png", ResourcePath+ "Pikachu_Basic.png");
-            DownloadFile(WebResourcePath+ "Bulbasaur_Basic.png", ResourcePath+ "Bulbasaur_Basic.png");
-            DownloadFile(WebResourcePath+ "Charmander_Basic.png", ResourcePath+ "Charmander_Basic.png");
-            DownloadFile(WebResourcePath+ "Squirtle_Basic.png", ResourcePath+ "Squirtle_Basic.png");
+            DownloadFile(WebResourcePath + "Pikachu_Basic.png", ResourcePath + "Pikachu_Basic.png");
+            DownloadFile(WebResourcePath + "Bulbasaur_Basic.png", ResourcePath + "Bulbasaur_Basic.png");
+            DownloadFile(WebResourcePath + "Charmander_Basic.png", ResourcePath + "Charmander_Basic.png");
+            DownloadFile(WebResourcePath + "Squirtle_Basic.png", ResourcePath + "Squirtle_Basic.png");
 
             DownloadFile(WebResourcePath + "Pikachu_Eating.png", ResourcePath + "Pikachu_Eating.png");
             DownloadFile(WebResourcePath + "Bulbasaur_Eating.png", ResourcePath + "Bulbasaur_Eating.png");
@@ -133,7 +133,14 @@ namespace Pokemon
             MouseLeftButtonDown += Window_MouseLeftButtonDown;
 
             Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
-            
+
+            ToolWindow tool = new ToolWindow();
+            tool.Show();
+            Show();
+            Owner = tool;
+            tool.Hide();
+            //Close();
+
             #endregion
         }
 
@@ -158,7 +165,7 @@ namespace Pokemon
             {
                 string[] laststring = file.Split('\\');
                 if (MessageBox.Show(Application.Current.MainWindow ?? throw new InvalidOperationException(),
-                        laststring[laststring.Length - 1] + "가 삭제됩니다!", "Alert", MessageBoxButton.OKCancel,
+                        "Warning : " + laststring[laststring.Length - 1] + " will be deleted forever!", "Alert", MessageBoxButton.OKCancel,
                         MessageBoxImage.Asterisk) == MessageBoxResult.OK)
                 {
                     if (File.Exists(file))
@@ -195,19 +202,19 @@ namespace Pokemon
 
         public void DownloadFile(string remoteFilename, string localFilename)
         {
-            try
+            if (!File.Exists(localFilename))
             {
-                if (!File.Exists(localFilename))
+                using (WebClient client = new WebClient())
                 {
-                    using (WebClient client = new WebClient())
+                    try
                     {
                         client.DownloadFile(remoteFilename, localFilename);
                     }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
             }
         }
         public void Animate_Pokemon_Eat()
@@ -258,36 +265,6 @@ namespace Pokemon
                 }),
                 DispatcherPriority.ContextIdle);
             System.Threading.Thread.Sleep(500);
-            //4
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Eating.png");
-                }),
-                DispatcherPriority.ContextIdle);
-
-            System.Threading.Thread.Sleep(500);
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
-                }),
-                DispatcherPriority.ContextIdle);
-            System.Threading.Thread.Sleep(500);
-            //5
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Eating.png");
-                }),
-                DispatcherPriority.ContextIdle);
-            System.Threading.Thread.Sleep(500);
-            Dispatcher.Invoke(
-                new Action(() =>
-                {
-                    Change_Pokemon_Image(ResourcePath + GetCurrentPokemon() + "_Basic.png");
-                }),
-                DispatcherPriority.ContextIdle);
         }
 
         public string GetCurrentPokemon()

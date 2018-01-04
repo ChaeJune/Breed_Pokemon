@@ -32,3 +32,5 @@ C:\Users\Woojin\Documents\Woojin\Q#\Basic Project\Breed_Pokemon\Pokemon\obj\Debu
 C:\Users\Woojin\Documents\Woojin\Q#\Basic Project\Breed_Pokemon\Pokemon\obj\Debug\Pokemon.csproj.CoreCompileInputs.cache
 C:\Users\Woojin\Documents\Woojin\Q#\Basic Project\Breed_Pokemon\Pokemon\obj\Debug\Pokemon.exe
 C:\Users\Woojin\Documents\Woojin\Q#\Basic Project\Breed_Pokemon\Pokemon\obj\Debug\Pokemon.pdb
+C:\Users\Woojin\Documents\Woojin\Q#\Basic Project\Breed_Pokemon\Pokemon\obj\Debug\ToolWindow.g.cs
+C:\Users\Woojin\Documents\Woojin\Q#\Basic Project\Breed_Pokemon\Pokemon\obj\Debug\ToolWindow.baml

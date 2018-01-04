@@ -71,7 +71,7 @@ namespace Pokemon
                 Bulbasaur_Image.Source = new BitmapImage(new Uri(_ResourcePath + "Bulbasaur_Basic.png", UriKind.Absolute));
                 Charmander_Image.Source = new BitmapImage(new Uri(_ResourcePath + "Charmander_Basic.png", UriKind.Absolute));
                 Squirtle_Image.Source = new BitmapImage(new Uri(_ResourcePath + "Squirtle_Basic.png", UriKind.Absolute));
-                Pokeball_Image.Source = new BitmapImage(new Uri(_ResourcePath + "Pokeball.png", UriKind.Absolute));
+                PokeballImage.Source = new BitmapImage(new Uri(_ResourcePath + "Pokeball.png", UriKind.Absolute));
             }
             catch (Exception e)
             {

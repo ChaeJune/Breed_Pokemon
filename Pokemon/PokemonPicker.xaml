@@ -8,7 +8,7 @@
         Title="Pokemon Picker" Height="500" Width="500"
         WindowState="Normal" ResizeMode="NoResize" WindowStyle="ToolWindow" Topmost="True" ShowInTaskbar="False" Background="Azure">
     <Grid>
-        <Image Name="Pokeball_Image" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Margin="126,120"></Image>
+        <Image Name="PokeballImage" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Margin="126,120"></Image>
         
         <Label Name="Pokemon" Content="Current Pokemon" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="30"/>
         <Label Name="PokemonName" Content="" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" FontSize="20"/>
